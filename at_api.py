@@ -502,11 +502,14 @@ def build_site():
   .posts li {{ padding:10px 0; border-bottom:1px solid #eee; }}
   .posts a {{ color:#5b2be0; text-decoration:none; font-weight:600; }}
   footer {{ text-align:center; color:#999; padding:20px; font-size:13px; }}
+  .promo {{ max-width:960px; margin:16px auto 0; background:#fff7d6; border:1px solid #facc15; color:#7a5b00; border-radius:12px; padding:14px 16px; font-size:14px; }}
+  .promo a {{ color:#7a5b00; font-weight:700; }}
 </style>
 </head>
 <body>
 <header><h1>Deal &amp; Affiliate Hub</h1><p>{total} ưu đãi đang chờ bạn</p></header>
 <p class="intro">Chúng tôi tổng hợp các chương trình affiliate uy tín từ Accesstrade (Tiki, giới thiệu bạn, và nhiều thương hiệu khác). Nhấn vào từng ưu đãi để xem chi tiết và nhận quyền lợi từ trang chủ chính chủ.</p>
+<div class="promo">🧮 Cần tính <b>thuế TNCN</b> hay tổng hợp <b>hoá đơn điện tử</b>? Dùng công cụ miễn phí của chúng tôi tại <a href="/tax/">Công cụ thuế &amp; hoá đơn</a>.</div>
 <div class="wrap"><div class="grid">
 {chr(10).join(cards)}
 </div></div>
