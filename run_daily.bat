@@ -8,6 +8,7 @@ python at_api.py build --niche fashion >> "%LOG%" 2>&1
 python at_api.py gen --niche finance >> "%LOG%" 2>&1
 python at_api.py gen --niche mother_baby >> "%LOG%" 2>&1
 python at_api.py gen --niche fashion >> "%LOG%" 2>&1
+python at_api.py articles >> "%LOG%" 2>&1
 python at_api.py site >> "%LOG%" 2>&1
 cd /d D:\at-affiliate\site
 git add -A >> "%LOG%" 2>&1

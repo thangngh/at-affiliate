@@ -133,6 +133,150 @@ NICHE_BLURB = {
     "fashion": "Thời trang, mỹ phẩm và phụ kiện theo xu hướng.",
 }
 
+# SEO articles. {ref} = ACCESSTRADE referral link, {tiki} = Tiki affiliate link.
+ARTICLES = [
+    {
+        "slug": "huong-dan-kiem-tien-accesstrade",
+        "title": "Hướng dẫn kiếm tiền với Accesstrade cho người mới",
+        "body": """
+<p>Tiếp thị liên kết (affiliate marketing) là mô hình bạn giới thiệu sản phẩm/dịch vụ,
+khách hàng mua qua link của bạn thì bạn nhận hoa hồng. <b>Accesstrade</b> là mạng
+affiliate lớn nhất Việt Nam, hoàn toàn miễn phí đăng ký, không cần vốn nhập hàng.</p>
+
+<h2>1. Accesstrade là gì?</h2>
+<p>Accesstrade kết nối giữa nhà bán hàng (Tiki, Shopee, ngân hàng, bảo hiểm...)
+và publisher (người quảng bá như bạn). Mỗi đơn hàng thành công qua link của bạn
+được ghi nhận và trả hoa hồng vào ngày 18 hàng tháng.</p>
+
+<h2>2. Ai nên làm?</h2>
+<ul>
+<li>Sinh viên, mẹ bỉm sữa, người đi làm muốn thêm thu nhập thụ động.</li>
+<li>Người có kênh mạng xã hội, blog, hoặc khả năng viết nội dung.</li>
+<li>Freelancer muốn mở rộng nguồn thu online.</li>
+</ul>
+
+<h2>3. Bắt đầu như thế nào?</h2>
+<ol>
+<li>Đăng ký tài khoản publisher (miễn phí).</li>
+<li>Chọn ngách phù hợp: tài chính, mẹ &amp; bé, thời trang...</li>
+<li>Tạo link affiliate và chia sẻ lên kênh của bạn.</li>
+<li>Theo dõi đơn hàng và tối ưu nội dung theo thời gian.</li>
+</ol>
+
+<h2>4. Mời bạn tham gia cùng chúng tôi</h2>
+<p>Nếu bạn muốn bắt đầu, hãy đăng ký qua link giới thiệu của chúng tôi —
+cả hai cùng nhận thêm ưu đãi từ hệ thống:</p>
+<p><a class="btn" href="{ref}" target="_blank" rel="nofollow">Đăng ký Accesstrade qua link giới thiệu</a></p>
+
+<h2>5. Lưu ý tránh vi phạm</h2>
+<p>Không spam link bừa bãi, không dùng từ khóa thương hiệu khi chạy quảng cáo,
+và đọc kỹ chính sách từng chiến dịch. Làm đúng cách mới bền vững.</p>
+""",
+    },
+    {
+        "slug": "mua-sam-tiki-gia-re-affiliate",
+        "title": "Mẹo mua sắm Tiki giá rẻ và nhận hoàn tiền qua affiliate",
+        "body": """
+<p>Tiki là một trong những sàn thương mại điện tử lớn nhất Việt Nam. Mua sắm qua
+link affiliate không làm thay đổi giá của bạn, nhưng giúp người giới thiệu nhận
+hoa hồng — và thường đi kèm các chương trình khuyến mãi, mã giảm giá hấp dẫn.</p>
+
+<h2>1. Tại sao nên mua qua link affiliate?</h2>
+<ul>
+<li>Giá không đổi, bạn vẫn mua trên Tiki chính chủ.</li>
+<li>Thường xuyên có deal, voucher từ chiến dịch affiliate.</li>
+<li>Ủng hộ người review/chia sẻ nội dung miễn phí.</li>
+</ul>
+
+<h2>2. Các ngành hàng phổ biến trên Tiki</h2>
+<ul>
+<li>Điện tử, gia dụng, sách, mỹ phẩm, thời trang.</li>
+<li>Sản phẩm mẹ &amp; bé, đồ chơi, đồ dùng nhà bếp.</li>
+</ul>
+
+<h2>3. Cách săn deal hiệu quả</h2>
+<ol>
+<li>Theo dõi các đợt sale giữa tháng, cuối tháng, ngày độc quyền.</li>
+<li>So sánh giá và đọc review trước khi chốt.</li>
+<li>Dùng link giới thiệu để tích lũy thêm ưu đãi.</li>
+</ol>
+
+<h2>4. Mua sắm ngay</h2>
+<p>Truy cập Tiki qua link bên dưới để bắt đầu mua sắm và nhận ưu đãi:</p>
+<p><a class="btn" href="{tiki}" target="_blank" rel="nofollow">Mua sắm Tiki qua affiliate</a></p>
+""",
+    },
+]
+
+
+def _get_aff_links():
+    out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "output")
+    referral = tiki = ""
+    if not os.path.isdir(out_dir):
+        return referral, tiki
+    latest = {}
+    for fn in os.listdir(out_dir):
+        if not fn.startswith("links_") or not fn.endswith(".json"):
+            continue
+        niche = fn[len("links_"):-len(".json")].split("_")[0]
+        if niche not in latest or fn > latest[niche]:
+            latest[niche] = fn
+    for fn in latest.values():
+        with open(os.path.join(out_dir, fn), encoding="utf-8") as f:
+            for it in json.load(f):
+                link = it.get("link", "")
+                if not link or link.startswith("(link"):
+                    continue
+                n = _normalize(it.get("name", ""))
+                if not referral and ("referral" in n or "gioi thieu" in n or "giới thiệu" in n):
+                    referral = link
+                if not tiki and "tiki" in n:
+                    tiki = link
+    return referral, tiki
+
+
+ARTICLE_BASE = """<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content="{title} - chia sẻ thực tế từ Deal & Affiliate Hub.">
+<meta property="og:title" content="{title}">
+<meta property="og:type" content="article">
+<style>
+  body {{ font-family: system-ui, Segoe UI, Roboto, Arial; margin:0; background:#f6f7fb; color:#1a1a2e; }}
+  header {{ background:#5b2be0; color:#fff; padding:24px 16px; }}
+  header a {{ color:#fff; text-decoration:none; font-size:14px; }}
+  .wrap {{ max-width:760px; margin:0 auto; padding:24px 18px; line-height:1.7; }}
+  h1 {{ font-size:26px; }}
+  h2 {{ margin-top:28px; color:#5b2be0; }}
+  .btn {{ display:inline-block; margin-top:10px; background:#5b2be0; color:#fff; text-decoration:none; padding:11px 16px; border-radius:8px; }}
+  footer {{ text-align:center; color:#999; padding:20px; font-size:13px; }}
+</style>
+</head>
+<body>
+<header><a href="/">&larr; Deal &amp; Affiliate Hub</a></header>
+<article class="wrap">
+<h1>{title}</h1>
+{body}
+</article>
+<footer>Affiliate tự động qua Accesstrade</footer>
+</body>
+</html>
+"""
+
+
+def build_articles():
+    ref, tiki = _get_aff_links()
+    site_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "site", "articles")
+    os.makedirs(site_dir, exist_ok=True)
+    for a in ARTICLES:
+        html = ARTICLE_BASE.format(title=a["title"], body=a["body"].format(ref=ref, tiki=tiki))
+        with open(os.path.join(site_dir, a["slug"] + ".html"), "w", encoding="utf-8") as f:
+            f.write(html)
+    print(f"Built {len(ARTICLES)} articles -> {site_dir}")
+
 
 def build_niche(token, short_domain, niche, limit=50, max_pages=6):
     keys = [_normalize(k) for k in NICHE_KEYWORDS.get(niche, [niche])]
@@ -273,6 +417,9 @@ def build_site():
                 f'      </div>'
             )
     total = len(cards)
+    article_links = "\n".join(
+        f'      <li><a href="/articles/{a["slug"]}.html">{a["title"]}</a></li>' for a in ARTICLES
+    )
     html = f"""<!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -296,6 +443,9 @@ def build_site():
   .merch {{ margin:0; color:#777; font-size:13px; }}
   .desc {{ margin:0; color:#555; font-size:13px; line-height:1.4; }}
   .btn {{ margin-top:auto; text-align:center; background:#5b2be0; color:#fff; text-decoration:none; padding:9px 12px; border-radius:8px; font-size:14px; }}
+  .posts {{ list-style:none; padding:0; max-width:760px; margin:24px auto; }}
+  .posts li {{ padding:10px 0; border-bottom:1px solid #eee; }}
+  .posts a {{ color:#5b2be0; text-decoration:none; font-weight:600; }}
   footer {{ text-align:center; color:#999; padding:20px; font-size:13px; }}
 </style>
 </head>
@@ -305,6 +455,9 @@ def build_site():
 <div class="wrap"><div class="grid">
 {chr(10).join(cards)}
 </div></div>
+<div class="wrap"><h2>Bài viết nên đọc</h2><ul class="posts">
+{article_links}
+</ul></div>
 <footer>Affiliate tự động qua Accesstrade · Vui lòng review kỹ trước khi đăng</footer>
 </body>
 </html>
@@ -348,6 +501,7 @@ def main():
     pg.add_argument("--niche", required=True, choices=list(NICHE_KEYWORDS.keys()))
 
     ps = sub.add_parser("site")
+    pa = sub.add_parser("articles")
 
     args = p.parse_args()
     token, short_domain = load_token()
@@ -384,6 +538,8 @@ def main():
         generate_content(token, short_domain, args.niche)
     elif args.cmd == "site":
         build_site()
+    elif args.cmd == "articles":
+        build_articles()
 
 
 if __name__ == "__main__":
