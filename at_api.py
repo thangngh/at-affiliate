@@ -328,7 +328,10 @@ def build_articles():
 
 
 def build_niche(token, short_domain, niche, limit=50, max_pages=6):
-    keys = [_normalize(k) for k in NICHE_KEYWORDS.get(niche, [niche])]
+    if niche == "all":
+        keys = []
+    else:
+        keys = [_normalize(k) for k in NICHE_KEYWORDS.get(niche, [niche])]
     out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "output")
     os.makedirs(out_dir, exist_ok=True)
     seen = set()
