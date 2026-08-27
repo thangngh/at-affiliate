@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Soi cảnh báo lừa đảo qua điện thoại, ngân hàng, link miễn phí</title>
+<meta name="description" content="Kiểm tra nhanh dấu hiệu lừa đảo: tin nhắn, số điện thoại, tài khoản ngân hàng, link. Miễn phí, không cần đăng ký.">
+<style>
+  :root{--bg:#0f172a;--card:#1e293b;--accent:#facc15;--text:#e2e8f0;--muted:#94a3b8}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:16px}
+  .wrap{max-width:720px;margin:0 auto}
+  h1{font-size:1.5rem;color:#fff;margin-bottom:4px}
+  h2{font-size:1.15rem;color:var(--accent);margin:24px 0 10px}
+  .card{background:var(--card);border-radius:12px;padding:16px;margin:12px 0;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+  label{display:block;font-size:.9rem;color:var(--muted);margin:8px 0 4px}
+  input,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #334155;background:#0b1220;color:#fff;font-size:1rem}
+  textarea{height:120px;resize:vertical}
+  button{margin-top:12px;background:var(--accent);color:#111;font-weight:700;border:0;padding:12px 16px;border-radius:8px;font-size:1rem;cursor:pointer;width:100%}
+  .out{margin-top:12px;background:#0b1220;border-radius:8px;padding:12px;font-size:.95rem}
+  .out b{color:var(--accent)}
+  .aff{display:grid;grid-template-columns:1fr;gap:10px}
+  .aff a{display:block;background:#0b1220;border:1px solid #334155;border-radius:10px;padding:12px;text-decoration:none;color:var(--text)}
+  .aff a:hover{border-color:var(--accent)}
+  .aff .t{color:var(--accent);font-weight:700}
+  .aff .d{font-size:.82rem;color:var(--muted)}
+  .red{color:#fca5a5}.yellow{color:#fde68a}.green{color:#86efac}
+  footer{margin-top:28px;font-size:.78rem;color:var(--muted);text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Soi cảnh báo lừa đảo</h1>
+  <p style="color:var(--muted)">Dán tin nhắn, số điện thoại, STK ngân hàng hoặc link — tool quét dấu hiệu lừa đảo miễn phí.</p>
+
+  <div class="card">
+    <h2>1. Quét nội dung</h2>
+    <label>Tin nhắn / số điện thoại / link / STK</label>
+    <textarea id="txt" placeholder="Ví dụ: Chúc mừng trúng thưởng, chuyển 500k trước để nhận quà, link bit.ly/..."></textarea>
+    <button onclick="checkScamUI()">Kiểm tra</button>
+    <div id="scamOut" class="out" style="display:none"></div>
+  </div>
+
+  <div class="card">
+    <h2>2. Dấu hiệu lừa đảo phổ biến</h2>
+    <ul style="font-size:.9rem;color:var(--muted);padding-left:18px">
+      <li>Yêu cầu <b>chuyển tiền trước</b> để nhận thưởng/được giải ngân.</li>
+      <li>Yêu cầu cung cấp <b>mã OTP</b>, mã xác thực ngân hàng.</li>
+      <li>Giả cơ quan công an/ngân hàng bắt <b>nộp phạt qua link</b>.</li>
+      <li>Link rút gọn lạ (bit.ly, t.co, go.…) hoặc web giống ngân hàng giả.</li>
+      <li>"Vay không cần giấy tờ, giải ngân 5 phút" nhưng bắt đóng phí trước.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>3. Cần tiền gấp? Dùng kênh hợp pháp (đối tác)</h2>
+    <div class="aff">
+      <a href="https://shorten.asia/wFBfTcW7?utm_source=thuehoadon&utm_medium=scam" target="_blank" rel="noopener">
+        <div class="t">Vay hợp pháp, không bắt chuyển trước</div>
+        <div class="d">Tima – lãi minh bạch, nhận đến 2.300.000₫ hoa hồng giới thiệu</div>
+      </a>
+      <a href="https://shorten.asia/5kkjcg7S?utm_source=thuehoadon&utm_medium=scam" target="_blank" rel="noopener">
+        <div class="t">Mở thẻ tín dụng đảo nợ an toàn</div>
+        <div class="d">VIB – miễn phí thường niên năm đầu</div>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    Tool dùng heuristic cảnh báo, <b>không phải tra cứu chính thức</b> và không lưu dữ liệu của bạn. Khi nghi ngờ, hãy dừng giao dịch và liên hệ ngân hàng/CSGT.<br>
+    Xem thêm công cụ miễn phí tại <a href="/tools/" style="color:var(--accent)">Công cụ miễn phí</a>.
+  </footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

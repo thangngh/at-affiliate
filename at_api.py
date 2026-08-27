@@ -509,7 +509,7 @@ def build_site():
 <body>
 <header><h1>Deal &amp; Affiliate Hub</h1><p>{total} ưu đãi đang chờ bạn</p></header>
 <p class="intro">Chúng tôi tổng hợp các chương trình affiliate uy tín từ Accesstrade (Tiki, giới thiệu bạn, và nhiều thương hiệu khác). Nhấn vào từng ưu đãi để xem chi tiết và nhận quyền lợi từ trang chủ chính chủ.</p>
-<div class="promo">🧮 Cần tính <b>thuế TNCN</b> hay tổng hợp <b>hoá đơn điện tử</b>? Dùng công cụ miễn phí của chúng tôi tại <a href="/tax/">Công cụ thuế &amp; hoá đơn</a>.</div>
+<div class="promo">🧰 Bộ công cụ miễn phí: tính <b>thuế TNCN</b>, tính <b>lãi vay &amp; tín dụng đen</b>, <b>soi lừa đảo</b>. Dùng tại <a href="/tools/">Công cụ miễn phí</a>.</div>
 <div class="wrap"><div class="grid">
 {chr(10).join(cards)}
 </div></div>

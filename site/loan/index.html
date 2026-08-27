@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tính lãi vay & cảnh báo tín dụng đen miễn phí</title>
+<meta name="description" content="Tính lãi suất vay thực tế, cảnh báo tín dụng đen, so sánh vay hợp pháp. Miễn phí, không cần đăng ký.">
+<style>
+  :root{--bg:#0f172a;--card:#1e293b;--accent:#facc15;--text:#e2e8f0;--muted:#94a3b8}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:16px}
+  .wrap{max-width:720px;margin:0 auto}
+  h1{font-size:1.5rem;color:#fff;margin-bottom:4px}
+  h2{font-size:1.15rem;color:var(--accent);margin:24px 0 10px}
+  .card{background:var(--card);border-radius:12px;padding:16px;margin:12px 0;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+  label{display:block;font-size:.9rem;color:var(--muted);margin:8px 0 4px}
+  input,textarea,select{width:100%;padding:10px;border-radius:8px;border:1px solid #334155;background:#0b1220;color:#fff;font-size:1rem}
+  button{margin-top:12px;background:var(--accent);color:#111;font-weight:700;border:0;padding:12px 16px;border-radius:8px;font-size:1rem;cursor:pointer;width:100%}
+  .out{margin-top:12px;background:#0b1220;border-radius:8px;padding:12px;font-size:.95rem}
+  .out b{color:var(--accent)}
+  .aff{display:grid;grid-template-columns:1fr;gap:10px}
+  .aff a{display:block;background:#0b1220;border:1px solid #334155;border-radius:10px;padding:12px;text-decoration:none;color:var(--text)}
+  .aff a:hover{border-color:var(--accent)}
+  .aff .t{color:var(--accent);font-weight:700}
+  .aff .d{font-size:.82rem;color:var(--muted)}
+  .red{color:#fca5a5}.green{color:#86efac}
+  footer{margin-top:28px;font-size:.78rem;color:var(--muted);text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Tính lãi vay & cảnh báo tín dụng đen</h1>
+  <p style="color:var(--muted)">Miễn phí – không đăng ký – lãi thực tế ngay trên máy bạn.</p>
+
+  <div class="card">
+    <h2>1. Tính lãi vay</h2>
+    <label>Số tiền vay (VND)</label>
+    <input id="amt" type="text" inputmode="numeric" placeholder="Ví dụ: 50,000,000">
+    <label>Lãi suất tháng (%)</label>
+    <input id="rate" type="text" inputmode="decimal" placeholder="Ví dụ: 1.5 (tức 1.5%/tháng)">
+    <label>Kỳ hạn (tháng)</label>
+    <input id="months" type="number" min="1" value="12">
+    <button onclick="calcLoanUI()">Tính</button>
+    <div id="loanOut" class="out" style="display:none"></div>
+  </div>
+
+  <div class="card">
+    <h2>2. Cảnh báo tín dụng đen</h2>
+    <p style="font-size:.9rem;color:var(--muted)">Tín dụng đen thường tính <b>5–20%/tháng</b> (60–240%/năm), yêu cầu trả trước, giữ giấy tờ. Nếu lãi bạn tính ra trên <b>3%/tháng</b> trở lên → có dấu hiệu tín dụng đen. Hãy ưu tiên kênh hợp pháp, lãi minh bạch bên dưới.</p>
+  </div>
+
+  <div class="card">
+    <h2>3. Vay hợp pháp, lãi minh bạch (đối tác)</h2>
+    <div class="aff">
+      <a href="https://shorten.asia/wFBfTcW7?utm_source=thuehoadon&utm_medium=loan" target="_blank" rel="noopener">
+        <div class="t">Vay ô tô / đáo hạn hợp pháp</div>
+        <div class="d">Tima – lãi công khai, nhận đến 2.300.000₫ hoa hồng giới thiệu</div>
+      </a>
+      <a href="https://shorten.asia/5kkjcg7S?utm_source=thuehoadon&utm_medium=loan" target="_blank" rel="noopener">
+        <div class="t">Mở thẻ tín dụng đảo nợ an toàn</div>
+        <div class="d">VIB – miễn phí thường niên năm đầu, lãi rõ ràng</div>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    Công cụ ước tính, không phải tư vấn tài chính. Lãi vay hợp pháp thường dưới 3%/tháng; trên mức đó cần cẩn trọng.<br>
+    Xem thêm công cụ miễn phí tại <a href="/tools/" style="color:var(--accent)">Công cụ miễn phí</a>.
+  </footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
