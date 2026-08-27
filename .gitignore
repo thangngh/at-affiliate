@@ -7,3 +7,5 @@ videos/
 check_links.py
 check_status.py
 filter_top.py
+
+*.mp4

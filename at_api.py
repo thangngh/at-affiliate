@@ -516,7 +516,8 @@ def build_site():
 <div class="wrap"><h2>Bài viết nên đọc</h2><ul class="posts">
 {article_links}
 </ul></div>
-<footer>Affiliate tự động qua Accesstrade · Vui lòng review kỹ trước khi đăng</footer>
+  <footer>Affiliate tự động qua Accesstrade · Vui lòng review kỹ trước khi đăng<br>
+  Copyleft © thangnh · Tự do sử dụng &amp; chia sẻ, giữ ghi công · Liên hệ: thangnh.00@gmail.com</footer>
 </body>
 </html>
 """
