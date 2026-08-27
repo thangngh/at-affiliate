@@ -2,3 +2,8 @@
 __pycache__/
 *.pyc
 output/
+videos/
+*.mp3
+check_links.py
+check_status.py
+filter_top.py

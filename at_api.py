@@ -14,6 +14,8 @@ import argparse
 import csv
 import json
 import os
+import glob
+import re
 import urllib.request
 import urllib.error
 import urllib.parse
@@ -556,6 +558,11 @@ def main():
     ps = sub.add_parser("site")
     pa = sub.add_parser("articles")
 
+    pv = sub.add_parser("videos", help="Generate faceless short videos from approved campaigns")
+    pv.add_argument("--top", type=int, default=1, help="generate for top N campaigns by commission")
+    pv.add_argument("--id", help="generate for a specific campaign id")
+    pv.add_argument("--voice", default="vi-VN-HoaiMyNeural")
+
     pd = sub.add_parser("discover")
     pd.add_argument("--site_id", type=int, default=1)
 
@@ -599,6 +606,59 @@ def main():
         build_site()
     elif args.cmd == "articles":
         build_articles()
+    elif args.cmd == "videos":
+        import video_engine
+        approved = []
+        for page in range(1, 8):
+            res = get_campaigns(token, page=page)
+            d = res.get("data", [])
+            if isinstance(d, dict):
+                d = d.get("data", [])
+            if not d:
+                break
+            approved += d
+            if len(d) < 50:
+                break
+        by_name = {}
+        for c in approved:
+            if str(c.get("approval")).lower() == "successful":
+                by_name[_normalize(c.get("name", ""))] = c
+        out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "output")
+        files = sorted(glob.glob(os.path.join(out_dir, "links_all_*.json")))
+        items = json.load(open(files[-1], encoding="utf-8")) if files else []
+        merged = []
+        for it in items:
+            c = by_name.get(_normalize(it.get("name", ""))) or {}
+            merged.append({
+                "name": it.get("name"),
+                "link": it.get("link"),
+                "commission": c.get("max_com") or "cao",
+                "logo": c.get("logo"),
+            })
+
+        def numval(s):
+            nums = re.findall(r"\d[\d.,]*", str(s))
+            best = 0
+            for t in nums:
+                t = t.replace(",", "").replace(".", "")
+                try:
+                    best = max(best, int(t))
+                except ValueError:
+                    pass
+            return best
+
+        if args.id:
+            merged = [m for m in merged if (by_name.get(_normalize(m["name"])) or {}).get("id") == args.id]
+        else:
+            merged.sort(key=lambda m: numval(m["commission"]), reverse=True)
+            merged = merged[:args.top]
+        for m in merged:
+            safe = re.sub(r"[^\w]+", "_", str(m["name"]))[:50]
+            out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "videos", safe + ".mp4")
+            try:
+                print("== video:", m["name"], "->", video_engine.make_video(m, out, args.voice), flush=True)
+            except Exception as e:
+                print("[video] skipped", m["name"], ":", e, flush=True)
     elif args.cmd == "discover":
         ids = get_unaffiliated(token, args.site_id)
         print(f"siteId={args.site_id} -> {len(ids)} unaffiliated campaigns available to apply")
