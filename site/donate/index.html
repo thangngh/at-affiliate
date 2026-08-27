@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Donation Safety Checker & Verified Relief Directory</title>
+<meta name="description" content="Check if a war/disaster fundraising appeal is safe before you donate. Links to verified relief charities. Free, no sign-up.">
+<style>
+  :root{--bg:#0f172a;--card:#1e293b;--accent:#facc15;--text:#e2e8f0;--muted:#94a3b8}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:16px}
+  .wrap{max-width:760px;margin:0 auto}
+  h1{font-size:1.5rem;color:#fff;margin-bottom:4px}
+  h2{font-size:1.1rem;color:var(--accent);margin:22px 0 8px}
+  .card{background:var(--card);border-radius:12px;padding:16px;margin:12px 0;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+  label{display:block;font-size:.9rem;color:var(--muted);margin:8px 0 4px}
+  textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #334155;background:#0b1220;color:#fff;font-size:1rem;height:120px;resize:vertical}
+  button{margin-top:12px;background:var(--accent);color:#111;font-weight:700;border:0;padding:12px 16px;border-radius:8px;font-size:1rem;cursor:pointer;width:100%}
+  .out{margin-top:12px;background:#0b1220;border-radius:8px;padding:12px;font-size:.95rem}
+  .red{color:#fca5a5}.yellow{color:#fde68a}.green{color:#86efac}
+  .aff a,.don a{display:block;background:#0b1220;border:1px solid #334155;border-radius:10px;padding:10px 12px;margin:8px 0;text-decoration:none;color:var(--text)}
+  .aff a:hover,.don a:hover{border-color:var(--accent)}
+  .aff .t{color:var(--accent);font-weight:700}
+  .aff .d{font-size:.82rem;color:var(--muted)}
+  footer{margin-top:26px;font-size:.78rem;color:var(--muted);text-align:center}
+  a.h{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Donation Safety Checker</h1>
+  <p style="color:var(--muted)">Before donating to Ukraine, Gaza, Syria or any crisis appeal — paste the message, URL or organisation name to spot scams. Free, no sign-up.</p>
+
+  <div class="card">
+    <h2>1. Check an appeal</h2>
+    <label>Fundraising message / URL / org name</label>
+    <textarea id="dtxt" placeholder="e.g. 'Send gift cards to unlock your matched donation', 'crypto only', 'copy of Red Cross'..."></textarea>
+    <button onclick="checkDonationUI()">Check safety</button>
+    <div id="dOut" class="out" style="display:none"></div>
+  </div>
+
+  <div class="card">
+    <h2>2. Verified relief organisations</h2>
+    <p style="font-size:.85rem;color:var(--muted)">We are <b>not affiliated</b> with any of these. Links open the official sites. Always donate on the official domain.</p>
+    <div class="aff">
+      <a href="https://www.icrc.org" target="_blank" rel="noopener"><div class="t">ICRC / Red Cross</div><div class="d">Neutral humanitarian protection & relief</div></a>
+      <a href="https://www.unhcr.org" target="_blank" rel="noopener"><div class="t">UNHCR</div><div class="d">Refugees & displaced people</div></a>
+      <a href="https://www.unicef.org" target="_blank" rel="noopener"><div class="t">UNICEF</div><div class="d">Children in conflict zones</div></a>
+      <a href="https://www.msf.org" target="_blank" rel="noopener"><div class="t">Doctors Without Borders (MSF)</div><div class="d">Emergency medical care</div></a>
+      <a href="https://u24.gov.ua" target="_blank" rel="noopener"><div class="t">UNITED24 (Ukraine official)</div><div class="d">Ukraine government fundraising platform</div></a>
+      <a href="https://www.unrwa.org" target="_blank" rel="noopener"><div class="t">UNRWA</div><div class="d">Palestine refugees relief</div></a>
+      <a href="https://www.pcrf.net" target="_blank" rel="noopener"><div class="t">PCRF</div><div class="d">Children in Palestine medical relief</div></a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>3. Support this free tool</h2>
+    <p style="font-size:.88rem;color:var(--muted)">This checker is free and runs on our own cost. If it saved you from a scam, a small tip keeps it alive.</p>
+    <div class="don">
+      <a href="https://ko-fi.com/thangnh" target="_blank" rel="noopener">☕ Tip via Ko-fi</a>
+      <a href="https://paypal.me/thangnh" target="_blank" rel="noopener">💙 Tip via PayPal</a>
+    </div>
+  </div>
+
+  <footer>Copyleft © thangnh · free to share, keep credit · Contact: thangnh.00@gmail.com<br>
+  Heuristic tool, not official verification. When in doubt, donate only on the org's official domain.<br>
+  More free tools at <a class="h" href="/tools/">Free Tools</a>.</footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

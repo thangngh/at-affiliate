@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>War-News Anxiety Check (for students & young adults)</title>
+<meta name="description" content="A 5-question check on news/war-anxiety for young people. Free, private, no sign-up. Tips + support link.">
+<style>
+  :root{--bg:#0f172a;--card:#1e293b;--accent:#facc15;--text:#e2e8f0;--muted:#94a3b8}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:16px}
+  .wrap{max-width:720px;margin:0 auto}
+  h1{font-size:1.5rem;color:#fff;margin-bottom:4px}
+  h2{font-size:1.1rem;color:var(--accent);margin:22px 0 8px}
+  .card{background:var(--card);border-radius:12px;padding:16px;margin:12px 0;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+  .q{margin:12px 0}
+  .q p{font-size:.95rem;margin-bottom:6px}
+  label{font-size:.9rem;color:var(--muted);margin-right:14px}
+  button{margin-top:14px;background:var(--accent);color:#111;font-weight:700;border:0;padding:12px 16px;border-radius:8px;font-size:1rem;cursor:pointer;width:100%}
+  .out{margin-top:12px;background:#0b1220;border-radius:8px;padding:12px;font-size:.95rem}
+  .out b{color:var(--accent)}
+  .don a{display:block;background:#0b1220;border:1px solid #334155;border-radius:10px;padding:10px 12px;margin:8px 0;text-decoration:none;color:var(--text)}
+  .don a:hover{border-color:var(--accent)}
+  footer{margin-top:26px;font-size:.78rem;color:var(--muted);text-align:center}
+  a.h{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>War-News Anxiety Check</h1>
+  <p style="color:var(--muted)">For students &amp; young adults (15–25) feeling overwhelmed by war/conflict news. 5 quick questions. Private, no sign-up.</p>
+
+  <div class="card">
+    <h2>1. How do you feel?</h2>
+    <div class="q"><p>How often do you check war/conflict news per day?</p>
+      <label><input type="radio" name="q1" value="0"> Rarely</label>
+      <label><input type="radio" name="q1" value="1"> A few times</label>
+      <label><input type="radio" name="q1" value="2"> Hourly</label>
+      <label><input type="radio" name="q1" value="3"> Constantly</label></div>
+    <div class="q"><p>Does the news make it hard to sleep?</p>
+      <label><input type="radio" name="q2" value="0"> Never</label>
+      <label><input type="radio" name="q2" value="1"> Sometimes</label>
+      <label><input type="radio" name="q2" value="3"> Often</label></div>
+    <div class="q"><p>Do you feel helpless about what's happening?</p>
+      <label><input type="radio" name="q2b" value="0"> No</label>
+      <label><input type="radio" name="q2b" value="2"> A bit</label>
+      <label><input type="radio" name="q2b" value="3"> Yes, a lot</label></div>
+    <div class="q"><p>Do you avoid friends/focus because of the news?</p>
+      <label><input type="radio" name="q3" value="0"> No</label>
+      <label><input type="radio" name="q3" value="2"> Sometimes</label>
+      <label><input type="radio" name="q3" value="3"> Often</label></div>
+    <div class="q"><p>Do you feel physical stress (racing heart, tense)?</p>
+      <label><input type="radio" name="q4" value="0"> No</label>
+      <label><input type="radio" name="q4" value="2"> Sometimes</label>
+      <label><input type="radio" name="q4" value="3"> Often</label></div>
+    <button onclick="anxietyUI()">See result</button>
+    <div id="aOut" class="out" style="display:none"></div>
+  </div>
+
+  <div class="card">
+    <h2>2. Support this free tool</h2>
+    <p style="font-size:.88rem;color:var(--muted)">Made for young people, free forever. A small tip helps keep it ad-free.</p>
+    <div class="don">
+      <a href="https://ko-fi.com/thangnh" target="_blank" rel="noopener">☕ Tip via Ko-fi</a>
+      <a href="https://paypal.me/thangnh" target="_blank" rel="noopener">💙 Tip via PayPal</a>
+    </div>
+  </div>
+
+  <footer>Copyleft © thangnh · free to share, keep credit · Contact: thangnh.00@gmail.com<br>
+  Not medical advice. If distress persists, talk to someone you trust or a local helpline.<br>
+  More free tools at <a class="h" href="/tools/">Free Tools</a>.</footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
