@@ -96,6 +96,46 @@ def get_transactions(token, limit=20):
     return _request("GET", "/v1/transactions", token, params=params)
 
 
+def get_unaffiliated(token, site_id, limit=50, max_pages=40):
+    """Return IDs of campaigns the publisher has not affiliated with yet."""
+    ids = []
+    for page in range(1, max_pages + 1):
+        params = {"siteId": site_id, "limit": limit, "page": page}
+        try:
+            res = _request("GET", f"/v1/publishers/me/sites/{site_id}/campaigns/unaffiliated",
+                           token, params=params)
+        except SystemExit as e:
+            print(f"  [unaffiliated] {e}")
+            break
+        if not isinstance(res, dict):
+            break
+        content = res.get("content", [])
+        if not content:
+            break
+        for c in content:
+            cid = c.get("id")
+            if cid:
+                ids.append(cid)
+        if len(content) < limit:
+            break
+    return ids
+
+
+def apply_campaigns(token, site_id, campaign_ids, batch=50):
+    """Apply (affiliate) to a list of campaign IDs in batches."""
+    applied = 0
+    for i in range(0, len(campaign_ids), batch):
+        chunk = campaign_ids[i:i + batch]
+        body = {"siteId": site_id, "campaignIds": chunk}
+        try:
+            res = _request("POST", "/v1/campaigns/affiliate", token, body=body)
+            applied += len(chunk)
+            print(f"  batch {i // batch + 1}: applied {len(chunk)} campaigns")
+        except SystemExit as e:
+            print(f"  batch {i // batch + 1} failed: {e}")
+    return applied
+
+
 # --- Niche configuration: tài chính/làm giàu, mẹ & bé, thời trang ---
 NICHE_KEYWORDS = {
     "finance": ["tài chính", "vay", "thẻ", "đầu tư", "chứng khoán", "bảo hiểm", "tích điểm"],
@@ -125,6 +165,15 @@ CONTENT_TEMPLATES = {
         "🛍️ Mua ngay tại đây: {link}\n"
     ),
 }
+
+# Fallback template for any niche not in CONTENT_TEMPLATES (e.g. "all").
+GENERIC_TEMPLATE = (
+    "## {name}\n\n"
+    "Khám phá ưu đãi từ {merchant}: {name}. Đây là chương trình affiliate uy tín "
+    "qua Accesstrade, hoàn toàn miễn phí tham gia.\n\n"
+    "- Chi tiết: ...\n- Lưu ý: ...\n- Tại sao nên tham gia: ...\n\n"
+    "👉 Xem & nhận ưu đãi tại đây: {link}\n"
+)
 
 # Short blurb per niche, shown as card description on the site.
 NICHE_BLURB = {
@@ -300,7 +349,7 @@ def build_niche(token, short_domain, niche, limit=50, max_pages=6):
         for c in data:
             hay = _normalize(" ".join(str(c.get(f, "")) for f in
                                      ["name", "description", "category", "sub_category", "merchant"]))
-            if not any(k in hay for k in keys):
+            if keys and not any(k in hay for k in keys):
                 continue
             cid = c.get("id") or c.get("campaign_id")
             if cid in seen:
@@ -341,7 +390,7 @@ def generate_content(token, short_domain, niche):
         raise SystemExit(f"No campaign CSV for '{niche}'. Run: python at_api.py build --niche {niche}")
     with open(csv_path, encoding="utf-8-sig") as f:
         rows = list(csv.DictReader(f))
-    template = CONTENT_TEMPLATES.get(niche, CONTENT_TEMPLATES["finance"])
+    template = CONTENT_TEMPLATES.get(niche, GENERIC_TEMPLATE)
     out_dir = os.path.dirname(csv_path)
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     md_path = os.path.join(out_dir, f"content_{niche}_{ts}.md")
@@ -407,9 +456,10 @@ def build_site():
             if it["link"] in seen_links:
                 continue
             seen_links.add(it["link"])
+            tag = "Tất cả" if niche == "all" else niche
             cards.append(
                 f'      <div class="card">\n'
-                f'        <div class="tag">{niche}</div>\n'
+                f'        <div class="tag">{tag}</div>\n'
                 f'        <h3>{it.get("name","")}</h3>\n'
                 f'        <p class="merch">{it.get("merchant","")}</p>\n'
                 f'        <p class="desc">{NICHE_BLURB.get(niche,"")}</p>\n'
@@ -498,10 +548,16 @@ def main():
     pb.add_argument("--limit", type=int, default=50)
 
     pg = sub.add_parser("gen")
-    pg.add_argument("--niche", required=True, choices=list(NICHE_KEYWORDS.keys()))
+    pg.add_argument("--niche", required=True, choices=list(NICHE_KEYWORDS.keys()) + ["all"])
 
     ps = sub.add_parser("site")
     pa = sub.add_parser("articles")
+
+    pd = sub.add_parser("discover")
+    pd.add_argument("--site_id", type=int, default=1)
+
+    papp = sub.add_parser("apply")
+    papp.add_argument("--site_id", type=int, default=1)
 
     args = p.parse_args()
     token, short_domain = load_token()
@@ -530,7 +586,7 @@ def main():
         res = get_transactions(token, limit=args.limit)
         print(json.dumps(res, ensure_ascii=False, indent=2))
     elif args.cmd == "build":
-        niches = list(NICHE_KEYWORDS.keys()) if args.niche == "all" else [args.niche]
+        niches = ["all"] if args.niche == "all" else [args.niche]
         for n in niches:
             print(f"== Building niche: {n} ==")
             build_niche(token, short_domain, n, args.limit)
@@ -540,6 +596,19 @@ def main():
         build_site()
     elif args.cmd == "articles":
         build_articles()
+    elif args.cmd == "discover":
+        ids = get_unaffiliated(token, args.site_id)
+        print(f"siteId={args.site_id} -> {len(ids)} unaffiliated campaigns available to apply")
+    elif args.cmd == "apply":
+        ids = get_unaffiliated(token, args.site_id)
+        print(f"Found {len(ids)} unaffiliated campaigns. Applying...")
+        n = apply_campaigns(token, args.site_id, ids)
+        print(f"Applied to {n} campaigns.")
+        print("Re-building site with all approved campaigns...")
+        build_niche(token, short_domain, "all", 50)
+        generate_content(token, short_domain, "all")
+        build_articles()
+        build_site()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,39 @@
+name: Daily AT refresh
+
+on:
+  schedule:
+    - cron: "0 1 * * *"   # 08:00 Vietnam time (UTC+7) = 01:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Write .env from secret
+        run: |
+          printf 'AT_TOKEN=%s\n' "${{ secrets.AT_TOKEN }}" > .env
+          printf 'AT_SHORT_DOMAIN=%s\n' "${{ secrets.AT_SHORT_DOMAIN }}" >> .env
+
+      - name: Build site (campaigns -> links -> articles -> site)
+        run: |
+          python at_api.py build --niche all
+          python at_api.py gen --niche all
+          python at_api.py articles
+          python at_api.py site
+
+      - name: Commit & push (triggers Netlify deploy)
+        run: |
+          git config user.email "at@local"
+          git config user.name "AT Bot"
+          git add site
+          git commit -m "daily update" || echo "no changes"
+          git push
