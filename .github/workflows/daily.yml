@@ -25,10 +25,10 @@ jobs:
 
       - name: Build site (campaigns -> links -> articles -> site)
         run: |
-          python at_api.py build --niche all
-          python at_api.py gen --niche all
-          python at_api.py articles
-          python at_api.py site
+          python3 at_api.py build --niche all
+          python3 at_api.py gen --niche all
+          python3 at_api.py articles
+          python3 at_api.py site
 
       - name: Commit & push (triggers Netlify deploy)
         run: |
