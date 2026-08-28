@@ -38,4 +38,24 @@
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://exquisite-sopapillas-2ecd68.netlify.app/blog/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://exquisite-sopapillas-2ecd68.netlify.app/blog/donate-safety.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://exquisite-sopapillas-2ecd68.netlify.app/blog/war-anxiety.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://exquisite-sopapillas-2ecd68.netlify.app/blog/war-cost.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>
